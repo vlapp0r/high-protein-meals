@@ -21,6 +21,7 @@ description = "High protein meals on a budget. Real recipes, real macros, real s
   showReadingTime = true
   showTableOfContents = true
   showRelatedContent = true
+  relatedContentLimit = 3
   showBreadcrumbs = true
   showShare = true
   showWordCount = false
@@ -36,3 +37,14 @@ description = "High protein meals on a budget. Real recipes, real macros, real s
 
 [seo]
   siteName = "The Protein Budget"
+
+[related]
+  threshold = 80
+  includeNewer = true
+  toLower = false
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "categories"
+    weight = 70
