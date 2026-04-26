@@ -1,5 +1,5 @@
-baseURL = "https://vlapp0r.github.io/the-protein-budget/"
-languageCode = "en-us"
+baseURL = "https://vlapp0r.github.io/high-protein-meals/"
+languageCode = "en"
 title = "The Protein Budget"
 theme = "blowfish"
 defaultContentLanguage = "en"
@@ -7,7 +7,21 @@ enableRobotsTXT = true
 buildDrafts = false
 buildFuture = false
 buildExpired = false
-paginate = 12
+
+[pagination]
+  pagerSize = 12
+
+# Required by Blowfish on Hugo 0.128+ — the theme reads site.Language.Locale
+# Without this block the build fails with "can't evaluate field Locale"
+[languages]
+  [languages.en]
+    languageName = "English"
+    weight = 1
+    title = "The Protein Budget"
+
+    [languages.en.params]
+      description = "High protein meals on a budget. Real recipes, real macros, real savings."
+      author = "The Protein Budget"
 
 [params]
   colorScheme = "ocean"
@@ -16,8 +30,6 @@ paginate = 12
   enableSearch = true
   enableCodeCopy = true
   mainSections = ["posts"]
-  description = "High protein meals on a budget. Real recipes, real macros, real savings."
-  author = "The Protein Budget"
 
   [params.homepage]
     layout = "background"
@@ -51,19 +63,19 @@ paginate = 12
 [menu]
   [[menu.main]]
     name = "Home"
-    url = "https://vlapp0r.github.io/the-protein-budget/"
+    url = "https://vlapp0r.github.io/high-protein-meals/"
     weight = 1
   [[menu.main]]
     name = "Recipes"
-    url = "https://vlapp0r.github.io/the-protein-budget/posts/"
+    url = "https://vlapp0r.github.io/high-protein-meals/posts/"
     weight = 2
   [[menu.main]]
     name = "Categories"
-    url = "https://vlapp0r.github.io/the-protein-budget/categories/"
+    url = "https://vlapp0r.github.io/high-protein-meals/categories/"
     weight = 3
   [[menu.main]]
     name = "About"
-    url = "https://vlapp0r.github.io/the-protein-budget/about/"
+    url = "https://vlapp0r.github.io/high-protein-meals/about/"
     weight = 4
 
 [outputs]
