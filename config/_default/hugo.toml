@@ -3,7 +3,7 @@
 # Place this at: config/_default/hugo.toml
 
 baseURL = "https://USERNAME.github.io/high-protein-meals/"
-languageCode = "en"
+locale = "en-US"
 defaultContentLanguage = "en"
 enableRobotsTXT = true
 buildDrafts = false

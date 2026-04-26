@@ -1,10 +1,6 @@
 # config/_default/languages.en.toml
-# Blowfish reads site.Language.Locale from this file.
-# Without it, the build fails with "can't evaluate field Locale".
-
-languageCode = "en"
-languageName = "English"
-isoCode = "en"
+locale = "en-US"
+label = "English"
 weight = 1
 title = "The Protein Budget"
 rtl = false
@@ -12,5 +8,5 @@ rtl = false
 [params.author]
   name = "The Protein Budget"
   headline = "High protein meals on a budget"
-  bio = "Real recipes, real macros, real savings. We make hitting your protein goals affordable."
+  bio = "Real recipes, real macros, real savings."
   links = []
