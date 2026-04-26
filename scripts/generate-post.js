@@ -1,0 +1,106 @@
+import Anthropic from "@anthropic-ai/sdk";
+import fs from "fs";
+import path from "path";
+
+const client = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
+});
+
+// Pool of recipe topics — Claude picks one it hasn't covered yet based on the prompt
+const TOPIC_POOL = [
+  "high protein ground beef rice bowl",
+  "budget cottage cheese scrambled eggs",
+  "cheap chicken thigh meal prep",
+  "high protein lentil soup",
+  "budget tuna rice bowl",
+  "cottage cheese bread two ingredients",
+  "ground turkey meal prep bowls",
+  "high protein overnight oats greek yogurt",
+  "cheap black bean rice bowl vegetarian",
+  "budget chicken burrito bowl high protein",
+  "hot honey ground beef bowl",
+  "high protein egg fried rice",
+  "cheapest high protein foods list",
+  "budget sardine rice bowl",
+  "greek yogurt chicken marinade",
+];
+
+// Pick a random topic from the pool
+const topic = TOPIC_POOL[Math.floor(Math.random() * TOPIC_POOL.length)];
+
+const SYSTEM_PROMPT = `You are a recipe blogger writing for "The Protein Budget" — a blog about high-protein meals on a budget. 
+Your writing is friendly, practical, and direct. You write for home cooks aged 22–40 who want to hit their protein goals without overspending on groceries.
+Always write in a warm, conversational tone. Never use excessive filler phrases. Get to the recipe quickly.`;
+
+const USER_PROMPT = `Write a complete Hugo blog post about: ${topic}
+
+The post MUST be formatted as a valid Hugo Markdown file with this exact front matter structure at the top:
+
+---
+title: "TITLE HERE"
+date: ${new Date().toISOString().split("T")[0]}
+description: "SEO meta description here — 140-160 characters, include main keyword naturally"
+categories: ["Recipes"]
+tags: ["high protein", "budget meals", "meal prep"]
+draft: false
+---
+
+After the front matter, write the full blog post body in Markdown. Include:
+
+1. A short intro paragraph (2-3 sentences) — hook the reader, state the protein count and cost per serving upfront
+2. ## Why This Recipe Works — 2-3 sentences on what makes it great
+3. ## Ingredients — a Markdown list with amounts. Keep it under 10 ingredients. Note cost per serving at the end.
+4. ## Instructions — numbered steps, clear and simple. 5-8 steps.
+5. ## Nutrition (Per Serving) — a simple Markdown table with: Calories, Protein, Carbs, Fat, Cost Per Serving
+6. ## Tips — 3-4 bullet points with practical tips
+7. ## Related Recipes — 3 bullet points with placeholder internal links in this format: [Recipe Name](/the-protein-budget/posts/recipe-slug/)
+8. A short closing paragraph (1-2 sentences) encouraging the reader.
+
+Rules:
+- Protein per serving must be 25g or higher
+- Cost per serving must be under $3.00
+- All measurements in US customary (cups, tbsp, oz, lb)
+- Keep the whole post between 600-900 words
+- Do not use em-dashes. Use commas or rewrite the sentence instead.
+- Output ONLY the raw Markdown file content. No explanations, no code fences, no preamble. Start directly with ---`;
+
+async function generatePost() {
+  console.log(`Generating post for topic: ${topic}`);
+
+  const message = await client.messages.create({
+    model: "claude-sonnet-4-6",
+    max_tokens: 1500,
+    system: SYSTEM_PROMPT,
+    messages: [{ role: "user", content: USER_PROMPT }],
+  });
+
+  const content = message.content[0];
+  if (content.type !== "text") {
+    throw new Error("Unexpected response type from Claude API");
+  }
+
+  const postContent = content.text.trim();
+
+  // Derive a filename slug from the topic
+  const slug = topic
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .substring(0, 60);
+
+  const date = new Date().toISOString().split("T")[0];
+  const filename = `${date}-${slug}.md`;
+  const outputPath = path.join("content", "posts", filename);
+
+  // Ensure the posts directory exists
+  fs.mkdirSync(path.join("content", "posts"), { recursive: true });
+
+  fs.writeFileSync(outputPath, postContent, "utf8");
+  console.log(`Post written to: ${outputPath}`);
+  console.log(`Word count: ~${postContent.split(/\s+/).length} words`);
+}
+
+generatePost().catch((err) => {
+  console.error("Failed to generate post:", err);
+  process.exit(1);
+});

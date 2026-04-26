@@ -1,0 +1,70 @@
+baseURL = "https://vlapp0r.github.io/the-protein-budget/"
+languageCode = "en-us"
+title = "The Protein Budget"
+theme = "blowfish"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+paginate = 12
+
+[params]
+  colorScheme = "ocean"
+  defaultAppearance = "light"
+  autoSwitchAppearance = true
+  enableSearch = true
+  enableCodeCopy = true
+  mainSections = ["posts"]
+  description = "High protein meals on a budget. Real recipes, real macros, real savings."
+  author = "The Protein Budget"
+
+  [params.homepage]
+    layout = "background"
+    showRecent = true
+    recentLimit = 6
+
+  [params.article]
+    showDate = true
+    showAuthor = false
+    showReadingTime = true
+    showTableOfContents = true
+    showRelatedContent = true
+    showBreadcrumbs = true
+    showShare = true
+
+  [params.list]
+    showCards = true
+    showTableOfContents = false
+
+  [params.footer]
+    showCopyright = true
+    showScrollToTop = true
+
+  [params.seo]
+    siteName = "The Protein Budget"
+
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+
+[menu]
+  [[menu.main]]
+    name = "Home"
+    url = "https://vlapp0r.github.io/the-protein-budget/"
+    weight = 1
+  [[menu.main]]
+    name = "Recipes"
+    url = "https://vlapp0r.github.io/the-protein-budget/posts/"
+    weight = 2
+  [[menu.main]]
+    name = "Categories"
+    url = "https://vlapp0r.github.io/the-protein-budget/categories/"
+    weight = 3
+  [[menu.main]]
+    name = "About"
+    url = "https://vlapp0r.github.io/the-protein-budget/about/"
+    weight = 4
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]

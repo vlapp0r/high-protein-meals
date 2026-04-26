@@ -1,0 +1,187 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   The Protein Budget — custom.css
+   Brand overrides layered on top of Blowfish theme defaults.
+   Keep this file for visual tweaks only. Layout changes belong in theme partials.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Brand colour tokens ─────────────────────────────────────────────────── */
+:root {
+  --tpb-green: #22c55e;
+  --tpb-green-dark: #16a34a;
+  --tpb-amber: #f59e0b;
+  --tpb-amber-dark: #d97706;
+  --tpb-surface: #fafaf9;
+  --tpb-text: #1c1917;
+  --tpb-muted: #78716c;
+  --tpb-radius: 10px;
+}
+
+/* ── Global font smoothing ───────────────────────────────────────────────── */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Article prose improvements ─────────────────────────────────────────── */
+.prose {
+  max-width: 72ch;
+}
+
+.prose h2 {
+  font-size: 1.4rem;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+
+.prose h3 {
+  font-size: 1.15rem;
+  margin-top: 1.75rem;
+}
+
+/* Tighten paragraph spacing for recipe posts */
+.prose p {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
+
+/* ── Recipe ingredient and step lists ────────────────────────────────────── */
+.prose ul li,
+.prose ol li {
+  margin-bottom: 0.4rem;
+  line-height: 1.65;
+}
+
+/* ── Nutrition table ─────────────────────────────────────────────────────── */
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
+}
+
+.prose table th {
+  background-color: var(--tpb-green);
+  color: #fff;
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.prose table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid #e7e5e4;
+}
+
+.prose table tr:nth-child(even) td {
+  background-color: #f5f5f4;
+}
+
+/* ── Inline code blocks (for ingredient amounts etc.) ────────────────────── */
+.prose code {
+  background-color: #f5f5f4;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.875em;
+  color: var(--tpb-text);
+}
+
+/* ── Post card grid ──────────────────────────────────────────────────────── */
+.article-grid .article-card {
+  border-radius: var(--tpb-radius);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.article-grid .article-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
+}
+
+/* ── Category and tag badges ─────────────────────────────────────────────── */
+.badge {
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* ── "Jump to recipe" style anchor link ──────────────────────────────────── */
+.jump-to-recipe {
+  display: inline-block;
+  background-color: var(--tpb-green);
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 99px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin: 0.5rem 0 1.5rem;
+  transition: background-color 0.15s ease;
+}
+
+.jump-to-recipe:hover {
+  background-color: var(--tpb-green-dark);
+  color: #fff;
+}
+
+/* ── Protein/cost highlight box ─────────────────────────────────────────── */
+.recipe-meta-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+  background: #f5f5f4;
+  border-radius: var(--tpb-radius);
+  padding: 14px 16px;
+  margin: 1.25rem 0;
+  font-size: 0.875rem;
+}
+
+.recipe-meta-box .meta-item {
+  text-align: center;
+}
+
+.recipe-meta-box .meta-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--tpb-green-dark);
+  display: block;
+}
+
+.recipe-meta-box .meta-label {
+  color: var(--tpb-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ── Header scroll state (toggled by scroll-theme.js) ───────────────────── */
+header.scrolled {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────── */
+footer {
+  font-size: 0.85rem;
+  color: var(--tpb-muted);
+}
+
+/* ── Dark mode overrides ─────────────────────────────────────────────────── */
+.dark .prose table th {
+  background-color: var(--tpb-green-dark);
+}
+
+.dark .prose table tr:nth-child(even) td {
+  background-color: #292524;
+}
+
+.dark .prose table td {
+  border-bottom-color: #44403c;
+}
+
+.dark .recipe-meta-box {
+  background: #292524;
+}
+
+.dark .jump-to-recipe {
+  background-color: var(--tpb-green-dark);
+}
