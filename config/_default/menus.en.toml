@@ -1,0 +1,28 @@
+# config/_default/menus.en.toml
+# Use pageRef for internal sections (Hugo resolves the URL automatically).
+# For a GitHub Pages subdirectory site, pageRef is safer than hardcoded urls.
+
+[[main]]
+  name = "Recipes"
+  pageRef = "posts"
+  weight = 10
+
+[[main]]
+  name = "Categories"
+  pageRef = "categories"
+  weight = 20
+
+[[main]]
+  name = "About"
+  pageRef = "about"
+  weight = 30
+
+[[footer]]
+  name = "Privacy"
+  pageRef = "privacy"
+  weight = 10
+
+[[footer]]
+  name = "Contact"
+  pageRef = "contact"
+  weight = 20

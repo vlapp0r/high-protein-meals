@@ -1,0 +1,38 @@
+# config/_default/params.toml
+
+colorScheme = "ocean"
+defaultAppearance = "light"
+autoSwitchAppearance = true
+enableSearch = true
+enableCodeCopy = true
+mainSections = ["posts"]
+description = "High protein meals on a budget. Real recipes, real macros, real savings."
+
+[homepage]
+  layout = "background"
+  showRecent = true
+  recentLimit = 6
+  showMoreLink = true
+  showMoreLinkDest = "/posts/"
+
+[article]
+  showDate = true
+  showAuthor = false
+  showReadingTime = true
+  showTableOfContents = true
+  showRelatedContent = true
+  showBreadcrumbs = true
+  showShare = true
+  showWordCount = false
+
+[list]
+  showCards = true
+  showTableOfContents = false
+  showSummary = true
+
+[footer]
+  showCopyright = true
+  showScrollToTop = true
+
+[seo]
+  siteName = "The Protein Budget"

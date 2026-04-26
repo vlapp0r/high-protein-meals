@@ -1,0 +1,15 @@
+# config/_default/markup.toml
+# Required by Blowfish — always include this file.
+# Controls how Hugo renders Markdown and syntax highlighting.
+
+[goldmark]
+  [goldmark.renderer]
+    unsafe = true
+
+[highlight]
+  noClasses = false
+  style = "dracula"
+
+[tableOfContents]
+  startLevel = 2
+  endLevel = 4

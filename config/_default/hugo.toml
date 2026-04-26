@@ -1,0 +1,25 @@
+# config/_default/hugo.toml
+# DELETE the hugo.toml in the repo root — this file replaces it.
+# Place this at: config/_default/hugo.toml
+
+baseURL = "https://USERNAME.github.io/high-protein-meals/"
+languageCode = "en"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+theme = "blowfish"
+
+[pagination]
+  pagerSize = 12
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  defaultMarkdownHandler = "goldmark"
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    noClasses = false
