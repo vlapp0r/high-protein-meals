@@ -2,7 +2,7 @@
 # DELETE the hugo.toml in the repo root — this file replaces it.
 # Place this at: config/_default/hugo.toml
 
-baseURL = "https://USERNAME.github.io/high-protein-meals/"
+baseURL = "https://gainsonadime.com/"
 locale = "en-US"
 defaultContentLanguage = "en"
 enableRobotsTXT = true
