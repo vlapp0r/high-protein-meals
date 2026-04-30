@@ -29,4 +29,4 @@ If you're trying to hit your protein goals without blowing your grocery budget, 
 
 ## Questions or recipe suggestions?
 
-Use the [contact page](/high-protein-meals/contact/) — I read every message.
+Use the [contact page](https://gainsonadime.com/contact/) — I read every message.
