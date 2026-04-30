@@ -4,25 +4,25 @@
 
 [[main]]
   name = "Recipes"
-  pageRef = "posts"
+  url = "https://gainsonadime.com/posts/"
   weight = 10
 
 [[main]]
   name = "Categories"
-  pageRef = "categories"
+  url = "https://gainsonadime.com/categories/"
   weight = 20
 
 [[main]]
   name = "About"
-  pageRef = "about"
+  url = "https://gainsonadime.com/about/"
   weight = 30
 
 [[footer]]
   name = "Privacy"
-  pageRef = "privacy"
+  url = "https://gainsonadime.com/privacy/"
   weight = 10
 
 [[footer]]
   name = "Contact"
-  pageRef = "contact"
+  url = "https://gainsonadime.com/contact/"
   weight = 20
