@@ -64,7 +64,7 @@ We do not store personal data on our own servers beyond standard web server logs
 
 ## Your rights
 
-Depending on your location, you may have rights under GDPR, CCPA, or similar laws to access, correct, or delete personal data we hold about you. To make a request, contact us via the [contact page](/high-protein-meals/contact/).
+Depending on your location, you may have rights under GDPR, CCPA, or similar laws to access, correct, or delete personal data we hold about you. To make a request, contact us via the [contact page](https://gainsonadime.com/contact/).
 
 ## Changes to this policy
 
