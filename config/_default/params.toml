@@ -1,5 +1,4 @@
 # config/_default/params.toml
-
 colorScheme = "ocean"
 defaultAppearance = "light"
 autoSwitchAppearance = true
@@ -36,7 +35,7 @@ description = "High protein meals on a budget. Real recipes, real macros, real s
   showScrollToTop = true
 
 [seo]
-  siteName = "The Protein Budget"
+  siteName = "Gains on a Dime"
 
 [related]
   threshold = 80
