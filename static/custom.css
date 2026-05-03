@@ -609,3 +609,190 @@ html body .prose a:hover,
 html body article a:hover {
   color: #e07a20 !important;
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WARM DARK MODE OVERRIDES
+   Replaces Blowfish's cold blue-grey dark theme with warm espresso tones.
+   Triggered when Blowfish adds class="dark" to the <html> element.
+═══════════════════════════════════════════════════════════════════════════ */
+
+html.dark body,
+html.dark {
+  background-color: #1a1612 !important;
+  color: #f0ebe3 !important;
+}
+
+/* Main background areas */
+html.dark body,
+html.dark .bg-neutral-800,
+html.dark .dark\:bg-neutral-800,
+html.dark .bg-neutral-900,
+html.dark .dark\:bg-neutral-900,
+html.dark .min-h-screen {
+  background-color: #1a1612 !important;
+}
+
+/* Header */
+html.dark header,
+html.dark header.fixed,
+html.dark header.sticky {
+  background-color: rgba(22, 18, 14, 0.90) !important;
+  border-bottom: 1px solid #3a3028 !important;
+}
+
+/* Site name in dark mode */
+html.dark header a,
+html.dark header .font-bold {
+  color: #74c69d !important;
+}
+
+/* Cards and article backgrounds */
+html.dark .card,
+html.dark article,
+html.dark [class*="rounded-xl"],
+html.dark [class*="rounded-lg"],
+html.dark .bg-neutral-700,
+html.dark .dark\:bg-neutral-700 {
+  background-color: #241f18 !important;
+  border-color: #3a3028 !important;
+}
+
+/* Post cards on homepage */
+html.dark li article,
+html.dark .article-card {
+  background-color: #241f18 !important;
+  border: 1px solid #3a3028 !important;
+}
+
+/* All text in dark mode — warm off-white not cold white */
+html.dark body *,
+html.dark p,
+html.dark li,
+html.dark span,
+html.dark [class*="text-neutral-300"],
+html.dark [class*="text-neutral-400"],
+html.dark [class*="text-neutral-200"] {
+  color: #e8e0d4 !important;
+}
+
+/* Headings in dark mode */
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark [class*="text-4xl"],
+html.dark [class*="text-3xl"],
+html.dark [class*="text-2xl"],
+html.dark [class*="text-xl"] {
+  color: #f5ede0 !important;
+  font-family: 'Playfair Display', serif !important;
+}
+
+/* H2 underline in dark mode */
+html.dark article h2,
+html.dark .prose h2 {
+  border-bottom: 2px solid #40916c !important;
+}
+
+/* Muted text — dates, reading time */
+html.dark [class*="text-neutral-500"],
+html.dark [class*="text-neutral-600"],
+html.dark time,
+html.dark .text-sm {
+  color: #9a8878 !important;
+}
+
+/* Links in dark mode */
+html.dark .prose a,
+html.dark article a {
+  color: #74c69d !important;
+  text-decoration-color: rgba(116, 198, 157, 0.35) !important;
+}
+
+html.dark .prose a:hover,
+html.dark article a:hover {
+  color: #f4a261 !important;
+}
+
+/* Strong text */
+html.dark .prose strong,
+html.dark article strong {
+  color: #74c69d !important;
+}
+
+/* Numbered steps in dark mode */
+html.dark .prose ol li {
+  background-color: #2a2318 !important;
+  border-color: #3a3028 !important;
+  color: #e8e0d4 !important;
+}
+
+/* Tables in dark mode */
+html.dark .prose table td {
+  border-bottom-color: #3a3028 !important;
+  color: #e8e0d4 !important;
+}
+
+html.dark .prose table tr:nth-child(even) td {
+  background-color: #221d16 !important;
+}
+
+/* Ingredient list items */
+html.dark .prose ul li {
+  border-bottom-color: #3a3028 !important;
+  color: #e8e0d4 !important;
+}
+
+/* Blockquotes */
+html.dark .prose blockquote {
+  background-color: rgba(64, 145, 108, 0.08) !important;
+  border-left-color: #40916c !important;
+  color: #e8e0d4 !important;
+}
+
+/* Footer */
+html.dark footer,
+html.dark footer * {
+  background-color: #161310 !important;
+  border-top-color: #3a3028 !important;
+  color: #9a8878 !important;
+}
+
+/* Navigation links in dark */
+html.dark header nav a {
+  color: #c9b99a !important;
+}
+
+html.dark header nav a:hover {
+  color: #74c69d !important;
+}
+
+/* Categories badge in dark */
+html.dark a[href*="/tags/"],
+html.dark a[href*="/categories/"] {
+  background: rgba(64, 145, 108, 0.15) !important;
+  color: #74c69d !important;
+  border-color: rgba(64, 145, 108, 0.25) !important;
+}
+
+/* Search input dark */
+html.dark input[type="search"],
+html.dark input[type="text"] {
+  background-color: #241f18 !important;
+  border-color: #3a3028 !important;
+  color: #e8e0d4 !important;
+}
+
+/* Decorative blobs — warmer in dark mode */
+html.dark body::after {
+  background: radial-gradient(ellipse at center,
+    rgba(64, 145, 108, 0.08) 0%,
+    transparent 70%) !important;
+}
+
+html.dark main::before {
+  background: radial-gradient(ellipse at center,
+    rgba(224, 122, 32, 0.06) 0%,
+    transparent 70%) !important;
+}
