@@ -901,3 +901,62 @@ html.dark [class*="text-neutral-800"],
 html.dark [class*="dark:text-neutral-100"] {
   color: #e8e0d4 !important;
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRECISE TARGETED FIXES — real class names from DevTools inspection
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Show More button ────────────────────────────────────────────────────── */
+/* Exact selector from DevTools: bg-transparent border-primary-500 */
+html.dark button.bg-transparent,
+html.dark a button.bg-transparent {
+  color: #74c69d !important;
+  border-color: #74c69d !important;
+  background-color: transparent !important;
+}
+
+html.dark button.bg-transparent:hover,
+html.dark a:hover button.bg-transparent {
+  background-color: #40916c !important;
+  color: #fff !important;
+  border-color: #40916c !important;
+}
+
+/* Light mode Show More */
+html:not(.dark) button.bg-transparent {
+  color: #2d6a4f !important;
+  border-color: #2d6a4f !important;
+}
+
+html:not(.dark) button.bg-transparent:hover {
+  background-color: #2d6a4f !important;
+  color: #fff !important;
+}
+
+/* ── prose dark:prose-invert text fix ───────────────────────────────────── */
+/* Blowfish uses prose dark:prose-invert — invert can make text dark on dark */
+html.dark .prose,
+html.dark .prose p,
+html.dark .prose li,
+html.dark .prose span,
+html.dark .prose td,
+html.dark .prose strong,
+html.dark .dark\:prose-invert {
+  color: #e8e0d4 !important;
+}
+
+html.dark .prose h1,
+html.dark .prose h2,
+html.dark .prose h3,
+html.dark .prose h4 {
+  color: #f5ede0 !important;
+}
+
+/* ── Jump to Recipe — force amber regardless of prose-invert ────────────── */
+html.dark a.jump-to-recipe,
+html.dark .jump-to-recipe {
+  color: #fff !important;
+  background: linear-gradient(135deg, #e07a20, #f4a261) !important;
+  border: none !important;
+}
