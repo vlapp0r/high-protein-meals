@@ -1,9 +1,6 @@
 # config/_default/hugo.toml
-# DELETE the hugo.toml in the repo root — this file replaces it.
-# Place this at: config/_default/hugo.toml
-
 baseURL = "https://gainsonadime.com/"
-locale = "en-US"
+languageCode = "en"
 defaultContentLanguage = "en"
 enableRobotsTXT = true
 buildDrafts = false
