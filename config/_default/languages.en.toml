@@ -2,11 +2,11 @@
 locale = "en-US"
 label = "English"
 weight = 1
-title = "The Protein Budget"
+title = "Gains on a Dime"
 rtl = false
 
 [params.author]
-  name = "The Protein Budget"
+  name = "Gains on a Dime"
   headline = "High protein meals on a budget"
-  bio = "Real recipes, real macros, real savings."
+  bio = "Real recipes, real macros, real savings. Hit your protein goals without breaking the bank."
   links = []
