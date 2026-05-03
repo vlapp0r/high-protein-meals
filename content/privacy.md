@@ -1,10 +1,13 @@
-title: "Privacy Policy"
+---
+title: "About"
 date: 2026-04-25
-description: "Privacy policy for Gains on a Dime."
+description: "About Gains on a Dime — high protein meals on a budget for real people."
+layout: "simple"
 showDate: false
 showReadingTime: false
-showTableOfContents: true
+showTableOfContents: false
 showShare: false
+---
 Overview
 This privacy policy explains how Gains on a Dime ("we", "us", "our") collects, uses, and protects information when you visit this website. We are committed to being transparent about our data practices.
 Information we collect
