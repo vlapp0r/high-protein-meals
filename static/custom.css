@@ -796,3 +796,24 @@ html.dark main::before {
     rgba(224, 122, 32, 0.06) 0%,
     transparent 70%) !important;
 }
+/* Fix black-on-black text in dark mode */
+html.dark body *,
+html.dark p,
+html.dark article p,
+html.dark .prose p,
+html.dark [class*="text-neutral-700"],
+html.dark [class*="text-neutral-600"],
+html.dark [class*="text-neutral-500"],
+html.dark li,
+html.dark span,
+html.dark td,
+html.dark th {
+  color: #e8e0d4 !important;
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4 {
+  color: #f5ede0 !important;
+}
