@@ -1,7 +1,8 @@
 ---
 title: "Contact"
 date: 2026-04-25
-description: "Get in touch with The Protein Budget."
+description: "Get in touch with Gains on a Dime."
+layout: "simple"
 showDate: false
 showReadingTime: false
 showTableOfContents: false
@@ -12,7 +13,7 @@ showShare: false
 
 Have a recipe request, a question about macros, or spotted an error in one of the posts? I'd love to hear from you.
 
-Send an email to: **hello@theproteinbudget.com**
+Send an email to: **gainsonadime@gmail.com**
 
 I read every message and try to reply within a few days. Recipe suggestions are especially welcome — if there's a budget protein meal you want to see covered, let me know.
 
