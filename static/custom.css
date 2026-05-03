@@ -796,24 +796,108 @@ html.dark main::before {
     rgba(224, 122, 32, 0.06) 0%,
     transparent 70%) !important;
 }
-/* Fix black-on-black text in dark mode */
-html.dark body *,
-html.dark p,
-html.dark article p,
-html.dark .prose p,
-html.dark [class*="text-neutral-700"],
-html.dark [class*="text-neutral-600"],
-html.dark [class*="text-neutral-500"],
-html.dark li,
-html.dark span,
-html.dark td,
-html.dark th {
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TARGETED DARK MODE FIXES — based on screenshot inspection
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Post hero banner (dark card behind title) ───────────────────────────── */
+html.dark .w-full.rounded-xl,
+html.dark header + div,
+html.dark [class*="article-header"],
+html.dark .relative.w-full {
+  background-color: #2a2318 !important;
+}
+
+/* Force all h1/h2/h3 to always be readable in dark mode */
+html.dark *,
+html.dark h1, html.dark h2, html.dark h3, html.dark h4,
+html.dark [class*="text-4xl"],
+html.dark [class*="text-3xl"],
+html.dark [class*="text-2xl"],
+html.dark [class*="text-xl"],
+html.dark [class*="text-lg"],
+html.dark [class*="font-bold"],
+html.dark [class*="font-extrabold"],
+html.dark [class*="tracking-tight"] {
+  color: #f5ede0 !important;
+}
+
+/* ── Section heading cards (dark bg with dark text) ─────────────────────── */
+html.dark .prose h2,
+html.dark article h2 {
+  color: #f5ede0 !important;
+  border-bottom: 2px solid #40916c !important;
+  background: transparent !important;
+}
+
+/* ── Related post cards ──────────────────────────────────────────────────── */
+html.dark .related article,
+html.dark [class*="related"] article,
+html.dark [class*="related"] div,
+html.dark .related h2,
+html.dark .related p,
+html.dark .related span {
+  background-color: #241f18 !important;
   color: #e8e0d4 !important;
 }
 
-html.dark h1,
-html.dark h2,
-html.dark h3,
-html.dark h4 {
+/* Related card title text */
+html.dark .related [class*="font-bold"],
+html.dark .related [class*="text-xl"],
+html.dark .related [class*="text-lg"],
+html.dark .related h2,
+html.dark .related h3 {
   color: #f5ede0 !important;
+}
+
+/* ── Show More button ────────────────────────────────────────────────────── */
+html.dark a[href*="/posts/"],
+html.dark button,
+html.dark [class*="button"],
+html.dark a[class*="button"] {
+  color: #e8e0d4 !important;
+}
+
+/* Target the specific Show More / load more button */
+html.dark .mt-4 a,
+html.dark [class*="more"] a,
+html.dark a[class*="more"],
+html.dark nav a[class*="page"],
+html.dark .flex.justify-center a {
+  background-color: #2a2318 !important;
+  color: #74c69d !important;
+  border: 1px solid #40916c !important;
+  border-radius: 8px !important;
+  padding: 8px 20px !important;
+}
+
+html.dark .flex.justify-center a:hover {
+  background-color: #40916c !important;
+  color: #fff !important;
+}
+
+/* ── Jump to Recipe button — keep amber in dark mode ────────────────────── */
+html.dark .jump-to-recipe {
+  background: linear-gradient(135deg, #e07a20, #f4a261) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(224, 122, 32, 0.25) !important;
+}
+
+/* ── Thumbnail/image placeholder areas ──────────────────────────────────── */
+html.dark figure,
+html.dark .thumbnail,
+html.dark [class*="thumbnail"],
+html.dark img {
+  background-color: #2a2318 !important;
+}
+
+/* ── Any remaining dark-on-dark text ────────────────────────────────────── */
+html.dark [style*="color: #1c1712"],
+html.dark [style*="color: #1c17"],
+html.dark [class*="text-neutral-900"],
+html.dark [class*="text-neutral-800"],
+html.dark [class*="dark:text-neutral-100"] {
+  color: #e8e0d4 !important;
 }
