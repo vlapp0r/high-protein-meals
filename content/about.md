@@ -1,10 +1,13 @@
+---
 title: "About"
 date: 2026-04-25
 description: "About Gains on a Dime — high protein meals on a budget for real people."
+layout: "simple"
 showDate: false
 showReadingTime: false
 showTableOfContents: false
 showShare: false
+---
 Hey, welcome to Gains on a Dime
 This blog exists because eating high protein doesn't have to mean spending a fortune on chicken breasts and protein powder.
 I started tracking macros a few years ago and quickly ran into the same wall everyone does: hitting 150 grams of protein a day gets expensive fast if you don't know what you're doing. So I started experimenting — cheaper cuts, canned fish, eggs, cottage cheese, beans — and figured out how to build genuinely good meals that are high in protein and easy on the grocery bill.
