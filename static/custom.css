@@ -1,187 +1,611 @@
-/* ─────────────────────────────────────────────────────────────────────────────
-   The Protein Budget — custom.css
-   Brand overrides layered on top of Blowfish theme defaults.
-   Keep this file for visual tweaks only. Layout changes belong in theme partials.
-───────────────────────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   Gains on a Dime — custom.css
+   Aesthetic direction: Warm editorial food magazine meets fitness energy.
+   Earthy greens + amber + cream. Textured, layered, alive.
+   Applied on top of Blowfish "ocean" color scheme.
+═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── Brand colour tokens ─────────────────────────────────────────────────── */
+/* ── Google Fonts ─────────────────────────────────────────────────────────
+   Playfair Display: editorial serif for headings — confidence + appetite
+   DM Sans: clean, modern body — readable at small sizes                   */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ── Brand tokens ────────────────────────────────────────────────────────── */
 :root {
-  --tpb-green: #22c55e;
-  --tpb-green-dark: #16a34a;
-  --tpb-amber: #f59e0b;
-  --tpb-amber-dark: #d97706;
-  --tpb-surface: #fafaf9;
-  --tpb-text: #1c1917;
-  --tpb-muted: #78716c;
-  --tpb-radius: 10px;
+  --goad-green:       #2d6a4f;
+  --goad-green-mid:   #40916c;
+  --goad-green-light: #74c69d;
+  --goad-amber:       #e07a20;
+  --goad-amber-light: #f4a261;
+  --goad-cream:       #fdf8f0;
+  --goad-warm-white:  #fffcf7;
+  --goad-brown:       #7c4f2a;
+  --goad-text:        #1c1712;
+  --goad-muted:       #6b5e4e;
+  --goad-border:      #e8ddd0;
+  --goad-radius:      12px;
+  --goad-radius-lg:   20px;
 }
 
-/* ── Global font smoothing ───────────────────────────────────────────────── */
+/* ── Global typography ───────────────────────────────────────────────────── */
 body {
+  font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Article prose improvements ─────────────────────────────────────────── */
-.prose {
-  max-width: 72ch;
+/* ── Warm parchment background with subtle grain texture ─────────────────── */
+body,
+.bg-neutral-50,
+.dark\:bg-neutral-800 {
+  background-color: var(--goad-cream) !important;
 }
 
-.prose h2 {
-  font-size: 1.4rem;
-  margin-top: 2.25rem;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.01em;
+/* SVG noise grain overlay on body for depth */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
 }
 
-.prose h3 {
-  font-size: 1.15rem;
-  margin-top: 1.75rem;
+/* ── Decorative background elements (food-themed blobs) ─────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  top: -120px;
+  right: -120px;
+  width: 500px;
+  height: 500px;
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(116, 198, 157, 0.12) 0%,
+    rgba(64, 145, 108, 0.06) 50%,
+    transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: blobDrift 18s ease-in-out infinite alternate;
 }
 
-/* Tighten paragraph spacing for recipe posts */
+@keyframes blobDrift {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  100% { transform: translate(-30px, 40px) scale(1.08) rotate(8deg); }
+}
+
+/* Second decorative blob — amber, bottom left */
+main::before {
+  content: '';
+  position: fixed;
+  bottom: -80px;
+  left: -100px;
+  width: 380px;
+  height: 380px;
+  border-radius: 45% 55% 40% 60% / 55% 45% 60% 40%;
+  background: radial-gradient(ellipse at center,
+    rgba(244, 162, 97, 0.10) 0%,
+    rgba(224, 122, 32, 0.05) 50%,
+    transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: blobDrift2 22s ease-in-out infinite alternate;
+}
+
+@keyframes blobDrift2 {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); }
+  100% { transform: translate(25px, -35px) scale(1.06) rotate(-6deg); }
+}
+
+/* Ensure all content sits above decorative layers */
+header, main, footer, article, nav {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+header {
+  background: rgba(253, 248, 240, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--goad-border) !important;
+  transition: box-shadow 0.3s ease;
+}
+
+header.scrolled {
+  box-shadow: 0 2px 20px rgba(44, 106, 79, 0.10);
+}
+
+/* Site title in header */
+header a[href="/"],
+.site-name {
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--goad-green) !important;
+}
+
+/* ── Page & article headings ─────────────────────────────────────────────── */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif !important;
+  letter-spacing: -0.02em;
+  color: var(--goad-text) !important;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem) !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+}
+
+h2 {
+  font-size: clamp(1.35rem, 3vw, 1.65rem) !important;
+  font-weight: 700 !important;
+  margin-top: 2.5rem !important;
+  padding-bottom: 0.4rem;
+  /* Warm underline accent */
+  border-bottom: 2px solid transparent;
+  background: linear-gradient(var(--goad-cream), var(--goad-cream)) padding-box,
+              linear-gradient(90deg, var(--goad-green-light), var(--goad-amber-light)) border-box;
+}
+
+h3 {
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: var(--goad-brown) !important;
+  margin-top: 1.75rem !important;
+}
+
+/* ── Prose body text ─────────────────────────────────────────────────────── */
+.prose, article {
+  font-family: 'DM Sans', sans-serif !important;
+  color: var(--goad-text) !important;
+}
+
 .prose p {
-  margin-bottom: 1rem;
-  line-height: 1.75;
+  line-height: 1.8 !important;
+  margin-bottom: 1.1rem !important;
+  font-weight: 300;
 }
 
-/* ── Recipe ingredient and step lists ────────────────────────────────────── */
-.prose ul li,
-.prose ol li {
-  margin-bottom: 0.4rem;
+.prose strong {
+  font-weight: 600;
+  color: var(--goad-green) !important;
+}
+
+/* ── Article ingredient lists ────────────────────────────────────────────── */
+.prose ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+}
+
+.prose ul li {
+  padding: 6px 0 6px 28px;
+  position: relative;
+  border-bottom: 1px solid var(--goad-border);
+  font-weight: 400;
   line-height: 1.65;
+}
+
+.prose ul li:last-child {
+  border-bottom: none;
+}
+
+/* Custom leaf bullet */
+.prose ul li::before {
+  content: '🌿';
+  position: absolute;
+  left: 0;
+  font-size: 13px;
+  top: 7px;
+}
+
+/* ── Numbered instruction steps ──────────────────────────────────────────── */
+.prose ol {
+  padding-left: 0 !important;
+  counter-reset: steps;
+  list-style: none !important;
+}
+
+.prose ol li {
+  counter-increment: steps;
+  padding: 12px 14px 12px 52px;
+  position: relative;
+  margin-bottom: 8px !important;
+  background: var(--goad-warm-white);
+  border: 1px solid var(--goad-border);
+  border-radius: var(--goad-radius);
+  line-height: 1.65;
+}
+
+.prose ol li::before {
+  content: counter(steps);
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  background: linear-gradient(135deg, var(--goad-green), var(--goad-green-mid));
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
 }
 
 /* ── Nutrition table ─────────────────────────────────────────────────────── */
 .prose table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
-  margin: 1.5rem 0;
+  border-radius: var(--goad-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(44, 106, 79, 0.08);
+  margin: 1.75rem 0 !important;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.prose table thead tr {
+  background: linear-gradient(135deg, var(--goad-green), var(--goad-green-mid)) !important;
 }
 
 .prose table th {
-  background-color: var(--tpb-green);
-  color: #fff;
-  padding: 8px 12px;
-  text-align: left;
-  font-weight: 600;
+  color: #fff !important;
+  padding: 10px 16px !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .prose table td {
-  padding: 7px 12px;
-  border-bottom: 1px solid #e7e5e4;
+  padding: 9px 16px !important;
+  border-bottom: 1px solid var(--goad-border) !important;
+  font-size: 0.925rem;
 }
 
 .prose table tr:nth-child(even) td {
-  background-color: #f5f5f4;
+  background: rgba(116, 198, 157, 0.06) !important;
 }
 
-/* ── Inline code blocks (for ingredient amounts etc.) ────────────────────── */
-.prose code {
-  background-color: #f5f5f4;
-  padding: 1px 5px;
-  border-radius: 4px;
-  font-size: 0.875em;
-  color: var(--tpb-text);
-}
-
-/* ── Post card grid ──────────────────────────────────────────────────────── */
-.article-grid .article-card {
-  border-radius: var(--tpb-radius);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.article-grid .article-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
-}
-
-/* ── Category and tag badges ─────────────────────────────────────────────── */
-.badge {
-  border-radius: 99px;
-  font-size: 0.75rem;
+.prose table tr:last-child td {
+  border-bottom: none !important;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  color: var(--goad-green) !important;
 }
 
-/* ── "Jump to recipe" style anchor link ──────────────────────────────────── */
+/* ── Jump to recipe button ───────────────────────────────────────────────── */
 .jump-to-recipe {
-  display: inline-block;
-  background-color: var(--tpb-green);
-  color: #fff;
-  padding: 8px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--goad-amber), var(--goad-amber-light));
+  color: #fff !important;
+  padding: 10px 22px;
   border-radius: 99px;
   font-size: 0.875rem;
   font-weight: 600;
-  text-decoration: none;
-  margin: 0.5rem 0 1.5rem;
-  transition: background-color 0.15s ease;
+  text-decoration: none !important;
+  margin: 0.5rem 0 1.75rem;
+  box-shadow: 0 4px 14px rgba(224, 122, 32, 0.30);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.jump-to-recipe::before {
+  content: '↓';
+  font-size: 1rem;
 }
 
 .jump-to-recipe:hover {
-  background-color: var(--tpb-green-dark);
-  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(224, 122, 32, 0.40);
 }
 
-/* ── Protein/cost highlight box ─────────────────────────────────────────── */
-.recipe-meta-box {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-  gap: 10px;
-  background: #f5f5f4;
-  border-radius: var(--tpb-radius);
-  padding: 14px 16px;
-  margin: 1.25rem 0;
-  font-size: 0.875rem;
+/* ── Post/article cards ──────────────────────────────────────────────────── */
+.article-card,
+[class*="article-card"] {
+  background: var(--goad-warm-white) !important;
+  border: 1px solid var(--goad-border) !important;
+  border-radius: var(--goad-radius-lg) !important;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease !important;
+  box-shadow: 0 2px 8px rgba(44, 106, 79, 0.06);
 }
 
-.recipe-meta-box .meta-item {
-  text-align: center;
+.article-card:hover,
+[class*="article-card"]:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 32px rgba(44, 106, 79, 0.13) !important;
 }
 
-.recipe-meta-box .meta-value {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--tpb-green-dark);
-  display: block;
+/* ── Tags and category badges ────────────────────────────────────────────── */
+.badge,
+[class*="badge"],
+a[href*="/tags/"],
+a[href*="/categories/"] {
+  background: rgba(64, 145, 108, 0.10) !important;
+  color: var(--goad-green) !important;
+  border: 1px solid rgba(64, 145, 108, 0.20) !important;
+  border-radius: 99px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  padding: 2px 10px !important;
+  text-decoration: none !important;
+  transition: background 0.15s ease;
 }
 
-.recipe-meta-box .meta-label {
-  color: var(--tpb-muted);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+a[href*="/tags/"]:hover,
+a[href*="/categories/"]:hover {
+  background: rgba(64, 145, 108, 0.20) !important;
 }
 
-/* ── Header scroll state (toggled by scroll-theme.js) ───────────────────── */
-header.scrolled {
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+/* ── Inline code ─────────────────────────────────────────────────────────── */
+.prose code {
+  background: rgba(244, 162, 97, 0.12) !important;
+  color: var(--goad-brown) !important;
+  padding: 2px 6px !important;
+  border-radius: 5px !important;
+  font-size: 0.875em !important;
+  border: 1px solid rgba(224, 122, 32, 0.15);
 }
 
-/* ── Footer ─────────────────────────────────────────────────────────────── */
+/* ── Blockquotes (tips, callouts) ────────────────────────────────────────── */
+.prose blockquote {
+  border-left: 4px solid var(--goad-green-light) !important;
+  background: rgba(116, 198, 157, 0.08) !important;
+  border-radius: 0 var(--goad-radius) var(--goad-radius) 0 !important;
+  padding: 14px 20px !important;
+  margin: 1.5rem 0 !important;
+  font-style: normal !important;
+  color: var(--goad-text) !important;
+}
+
+/* ── Dividers ────────────────────────────────────────────────────────────── */
+.prose hr {
+  border: none !important;
+  height: 2px !important;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--goad-green-light),
+    var(--goad-amber-light),
+    transparent) !important;
+  margin: 2.5rem 0 !important;
+  border-radius: 99px;
+}
+
+/* ── Links in prose ──────────────────────────────────────────────────────── */
+.prose a {
+  color: var(--goad-green) !important;
+  text-decoration: underline;
+  text-decoration-color: rgba(64, 145, 108, 0.35);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease, color 0.15s ease;
+}
+
+.prose a:hover {
+  color: var(--goad-amber) !important;
+  text-decoration-color: var(--goad-amber);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
 footer {
-  font-size: 0.85rem;
-  color: var(--tpb-muted);
+  background: rgba(44, 106, 79, 0.04) !important;
+  border-top: 1px solid var(--goad-border) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: 0.875rem !important;
+  color: var(--goad-muted) !important;
 }
 
-/* ── Dark mode overrides ─────────────────────────────────────────────────── */
-.dark .prose table th {
-  background-color: var(--tpb-green-dark);
+/* ── Search box ──────────────────────────────────────────────────────────── */
+input[type="search"],
+input[type="text"] {
+  border-radius: var(--goad-radius) !important;
+  border: 1.5px solid var(--goad-border) !important;
+  background: var(--goad-warm-white) !important;
+  font-family: 'DM Sans', sans-serif !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="search"]:focus,
+input[type="text"]:focus {
+  border-color: var(--goad-green-light) !important;
+  box-shadow: 0 0 0 3px rgba(116, 198, 157, 0.20) !important;
+  outline: none !important;
+}
+
+/* ── Scroll to top button ────────────────────────────────────────────────── */
+[data-scroll-to-top],
+button[aria-label*="scroll"],
+button[aria-label*="top"] {
+  background: linear-gradient(135deg, var(--goad-green), var(--goad-green-mid)) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 4px 14px rgba(44, 106, 79, 0.30) !important;
+  transition: opacity 0.3s ease, transform 0.2s ease !important;
+}
+
+[data-scroll-to-top]:hover {
+  transform: translateY(-2px) !important;
+}
+
+/* ── Reading progress feel — article max width ───────────────────────────── */
+.prose {
+  max-width: 70ch !important;
+}
+
+/* ── Breadcrumbs ─────────────────────────────────────────────────────────── */
+nav[aria-label="breadcrumb"] a {
+  color: var(--goad-muted) !important;
+  font-size: 0.825rem !important;
+  text-decoration: none !important;
+}
+
+nav[aria-label="breadcrumb"] a:hover {
+  color: var(--goad-green) !important;
+}
+
+/* ── Dark mode — keep it warm, not cold ─────────────────────────────────── */
+.dark {
+  --goad-cream: #1a1612;
+  --goad-warm-white: #221e18;
+  --goad-border: #3a3028;
+  --goad-text: #f0ebe3;
+  --goad-muted: #9a8878;
+}
+
+.dark body {
+  background-color: var(--goad-cream) !important;
+}
+
+.dark header {
+  background: rgba(26, 22, 18, 0.88) !important;
+}
+
+.dark .prose table thead tr {
+  background: linear-gradient(135deg, var(--goad-green), #1f4d38) !important;
+}
+
+.dark .prose ol li {
+  background: var(--goad-warm-white) !important;
+  border-color: var(--goad-border) !important;
 }
 
 .dark .prose table tr:nth-child(even) td {
-  background-color: #292524;
+  background: rgba(64, 145, 108, 0.08) !important;
 }
 
-.dark .prose table td {
-  border-bottom-color: #44403c;
+.dark .prose blockquote {
+  background: rgba(64, 145, 108, 0.07) !important;
 }
 
-.dark .recipe-meta-box {
-  background: #292524;
+.dark footer {
+  background: rgba(64, 145, 108, 0.04) !important;
+  border-top-color: var(--goad-border) !important;
 }
 
-.dark .jump-to-recipe {
-  background-color: var(--tpb-green-dark);
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SPECIFICITY OVERRIDES
+   Blowfish uses Tailwind utility classes — these rules target them directly
+   to ensure our styles win regardless of load order.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* Force Google Fonts to load on all text */
+html body,
+html body *:not(code):not(pre):not(.chroma) {
+  font-family: 'DM Sans', sans-serif !important;
+}
+
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body h5,
+html body .font-bold,
+html body [class*="font-"] {
+  font-family: 'Playfair Display', serif !important;
+}
+
+/* Warm background — override Tailwind bg- classes */
+html body,
+html body .bg-neutral-50,
+html body .bg-white,
+html body .dark\:bg-neutral-800,
+html body .min-h-screen {
+  background-color: #fdf8f0 !important;
+}
+
+/* Header background */
+html body header,
+html body header.fixed,
+html body header.sticky,
+html body .backdrop-blur {
+  background-color: rgba(253, 248, 240, 0.88) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid #e8ddd0 !important;
+}
+
+/* Site name / logo text */
+html body header a,
+html body .site-name,
+html body header .font-bold,
+html body header [class*="text-"] {
+  font-family: 'Playfair Display', serif !important;
+  color: #2d6a4f !important;
+}
+
+/* Nav links */
+html body header nav a {
+  font-family: 'DM Sans', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* Article headings — override Tailwind text-neutral- classes */
+html body article h1,
+html body article h2,
+html body article h3,
+html body .prose h1,
+html body .prose h2,
+html body .prose h3,
+html body [class*="text-4xl"],
+html body [class*="text-3xl"],
+html body [class*="text-2xl"],
+html body [class*="text-xl"] {
+  font-family: 'Playfair Display', serif !important;
+  color: #1c1712 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Green accent on h2 underline */
+html body article h2,
+html body .prose h2 {
+  padding-bottom: 0.4rem !important;
+  border-bottom: 2px solid #74c69d !important;
+  margin-top: 2.5rem !important;
+}
+
+/* Body text warm color */
+html body article p,
+html body .prose p,
+html body [class*="text-neutral-700"],
+html body [class*="text-neutral-600"] {
+  color: #1c1712 !important;
+  line-height: 1.8 !important;
+}
+
+/* Cards */
+html body [class*="rounded"],
+html body .card,
+html body article {
+  background-color: #fffcf7 !important;
+}
+
+/* Footer */
+html body footer,
+html body footer * {
+  background-color: rgba(44, 106, 79, 0.04) !important;
+  border-top: 1px solid #e8ddd0 !important;
+}
+
+/* Strong text */
+html body .prose strong,
+html body article strong {
+  color: #2d6a4f !important;
+}
+
+/* Links */
+html body .prose a,
+html body article a {
+  color: #2d6a4f !important;
+  text-decoration-color: rgba(64, 145, 108, 0.4) !important;
+}
+
+html body .prose a:hover,
+html body article a:hover {
+  color: #e07a20 !important;
 }
