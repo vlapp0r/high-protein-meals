@@ -6,10 +6,19 @@ const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-// ─── 60-topic pool ────────────────────────────────────────────────────────────
-// Organised by cluster. Script picks randomly — over time all topics get covered.
+// ── Manual inputs from workflow_dispatch ─────────────────────────────────────
+const manualRecipeName   = process.env.INPUT_RECIPE_NAME   || "";
+const manualIngredients  = process.env.INPUT_INGREDIENTS   || "";
+const manualProtein      = process.env.INPUT_PROTEIN       || "";
+const manualCost         = process.env.INPUT_COST          || "";
+const manualServings     = process.env.INPUT_SERVINGS      || "4";
+const manualNotes        = process.env.INPUT_NOTES         || "";
+
+const isManual = manualRecipeName.trim().length > 0;
+
+// ── 60-topic random pool (used when no manual recipe provided) ────────────────
 const TOPIC_POOL = [
-  // ── Ground Beef & Turkey ──────────────────────────────────────────────────
+  // Ground Beef & Turkey
   "hot honey ground beef bowl high protein under 2.50",
   "korean ground beef rice bowl budget meal prep",
   "high protein lasagna soup ground beef budget",
@@ -20,8 +29,7 @@ const TOPIC_POOL = [
   "egg roll in a bowl ground turkey budget",
   "ground beef and rice skillet one pan dinner",
   "cheap high protein beef and bean tacos",
-
-  // ── Chicken ───────────────────────────────────────────────────────────────
+  // Chicken
   "budget chicken thigh meal prep high protein",
   "high protein chicken burrito bowl under 3 dollars",
   "rotisserie chicken meal prep 5 ways",
@@ -32,8 +40,7 @@ const TOPIC_POOL = [
   "one pot chicken and rice high protein budget",
   "chicken mince burgers high protein cheap",
   "crockpot chicken fajita bowls budget high protein",
-
-  // ── Eggs ──────────────────────────────────────────────────────────────────
+  // Eggs
   "high protein egg fried rice budget meal",
   "cottage cheese scrambled eggs high protein",
   "high protein egg muffins meal prep budget",
@@ -42,16 +49,14 @@ const TOPIC_POOL = [
   "high protein frittata budget ingredients",
   "cheesy eggs on toast high protein cheap breakfast",
   "high protein shakshuka budget dinner",
-
-  // ── Cottage Cheese ────────────────────────────────────────────────────────
+  // Cottage Cheese
   "cottage cheese bread 2 ingredients high protein",
   "cottage cheese bowl ideas high protein meal prep",
   "cottage cheese pancakes high protein budget breakfast",
   "high protein cottage cheese pasta sauce budget",
   "cottage cheese pizza crust high protein cheap",
   "cottage cheese chocolate mousse high protein dessert budget",
-
-  // ── Beans & Lentils ───────────────────────────────────────────────────────
+  // Beans & Lentils
   "high protein lentil soup budget meal prep",
   "black bean rice bowl high protein vegetarian budget",
   "chickpea curry high protein under 2 dollars",
@@ -60,21 +65,18 @@ const TOPIC_POOL = [
   "high protein bean and cheese quesadillas budget",
   "budget black bean tacos high protein vegetarian",
   "lentil bolognese high protein cheap pasta",
-
-  // ── Canned Fish ───────────────────────────────────────────────────────────
+  // Canned Fish
   "high protein tuna rice bowl under 2 dollars",
   "budget sardine rice bowl high protein",
   "tuna pasta high protein cheap dinner",
   "canned salmon patties high protein budget",
   "tuna and white bean salad high protein cheap lunch",
-
-  // ── Greek Yogurt ──────────────────────────────────────────────────────────
+  // Greek Yogurt
   "high protein overnight oats greek yogurt budget",
   "greek yogurt chicken marinade budget meal prep",
   "high protein greek yogurt bowl 5 minutes",
   "greek yogurt protein muffins budget breakfast",
-
-  // ── Pillar and informational ──────────────────────────────────────────────
+  // Pillar / Informational
   "cheapest high protein foods ranked by cost per gram",
   "7 day high protein budget meal plan under 50 dollars",
   "high protein meal prep for the week under 50 dollars",
@@ -87,20 +89,19 @@ const TOPIC_POOL = [
   "high protein meals under 500 calories budget",
 ];
 
-// Pick a random topic
-const topic = TOPIC_POOL[Math.floor(Math.random() * TOPIC_POOL.length)];
+const randomTopic = TOPIC_POOL[Math.floor(Math.random() * TOPIC_POOL.length)];
 
-const SYSTEM_PROMPT = `You are a recipe blogger writing for "Gains on a Dime" — a blog about high-protein meals on a budget.
-Your writing is friendly, practical, and direct. You write for home cooks aged 22–40 who want to hit their protein goals without overspending on groceries.
-Always write in a warm, conversational tone. Never use excessive filler phrases. Get to the recipe quickly.`;
+// ── Build the prompt depending on manual vs random ────────────────────────────
+function buildUserPrompt() {
+  const today = new Date().toISOString().split("T")[0];
 
-const USER_PROMPT = `Write a complete Hugo blog post about: ${topic}
-
+  // Shared post structure instructions
+  const structure = `
 The post MUST be formatted as a valid Hugo Markdown file with this exact front matter structure at the top:
 
 ---
 title: "TITLE HERE"
-date: ${new Date().toISOString().split("T")[0]}
+date: ${today}
 description: "SEO meta description here — 140-160 characters, include main keyword naturally"
 categories: ["Recipes"]
 tags: ["high protein", "budget meals", "meal prep"]
@@ -111,7 +112,7 @@ After the front matter, write the full blog post body in Markdown. Include:
 
 1. A short intro paragraph (2-3 sentences) — hook the reader, state the protein count and cost per serving upfront
 2. ## Why This Recipe Works — 2-3 sentences on what makes it great
-3. ## Ingredients — a Markdown list with amounts. Keep it under 10 ingredients. Note cost per serving at the end.
+3. ## Ingredients — a Markdown list with amounts. Keep it under 12 ingredients. Note cost per serving at the end.
 4. ## Instructions — numbered steps, clear and simple. 5-8 steps.
 5. ## Nutrition (Per Serving) — a simple Markdown table with: Calories, Protein, Carbs, Fat, Cost Per Serving
 6. ## Tips — 3-4 bullet points with practical tips
@@ -126,14 +127,54 @@ Rules:
 - Do not use em-dashes. Use commas or rewrite the sentence instead.
 - Output ONLY the raw Markdown file content. No explanations, no code fences, no preamble. Start directly with ---`;
 
+  if (isManual) {
+    // Build a detailed prompt from the user's inputs
+    const proteinLine  = manualProtein   ? `- Each serving contains approximately ${manualProtein}g of protein — use this exact number in the post.` : "- Calculate a realistic protein count based on the ingredients.";
+    const costLine     = manualCost      ? `- Cost per serving is approximately $${manualCost} — use this exact number in the post.` : "- Estimate a realistic budget cost per serving under $3.00.";
+    const servingsLine = `- The recipe makes ${manualServings} servings.`;
+    const ingredLine   = manualIngredients ? `- The recipe uses these key ingredients: ${manualIngredients}. Build the full ingredients list around these, adding supporting ingredients as needed.` : "";
+    const notesLine    = manualNotes     ? `- Additional notes from the author: ${manualNotes}` : "";
+
+    return `Write a complete Hugo blog post for this specific recipe: "${manualRecipeName}"
+
+Key details to incorporate:
+${proteinLine}
+${costLine}
+${servingsLine}
+${ingredLine}
+${notesLine}
+
+${structure}`;
+  }
+
+  // Random topic from pool
+  return `Write a complete Hugo blog post about: ${randomTopic}
+
+${structure}`;
+}
+
+// ── Derive a URL-safe slug ────────────────────────────────────────────────────
+function buildSlug() {
+  const base = isManual ? manualRecipeName : randomTopic;
+  return base
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .substring(0, 60);
+}
+
+// ── Main ─────────────────────────────────────────────────────────────────────
 async function generatePost() {
-  console.log(`Generating post for topic: ${topic}`);
+  const label = isManual
+    ? `manual recipe: "${manualRecipeName}"`
+    : `random topic: "${randomTopic}"`;
+  console.log(`Generating post for ${label}`);
 
   const message = await client.messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 1500,
-    system: SYSTEM_PROMPT,
-    messages: [{ role: "user", content: USER_PROMPT }],
+    system: `You are a recipe blogger writing for "Gains on a Dime" — a blog about high-protein meals on a budget. Your writing is friendly, practical, and direct. You write for home cooks aged 22–40 who want to hit their protein goals without overspending on groceries. Always write in a warm, conversational tone. Never use excessive filler phrases. Get to the recipe quickly.`,
+    messages: [{ role: "user", content: buildUserPrompt() }],
   });
 
   const content = message.content[0];
@@ -142,15 +183,8 @@ async function generatePost() {
   }
 
   const postContent = content.text.trim();
-
-  const slug = topic
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .substring(0, 60);
-
   const date = new Date().toISOString().split("T")[0];
-  const filename = `${date}-${slug}.md`;
+  const filename = `${date}-${buildSlug()}.md`;
   const outputPath = path.join("content", "posts", filename);
 
   fs.mkdirSync(path.join("content", "posts"), { recursive: true });
