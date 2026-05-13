@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Images to Post — Gains on a Dime</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #1a1612;
+    color: #e8e0d4;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #3a3028;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #74c69d;
+    margin-bottom: 4px;
+  }
+
+  header p {
+    font-size: 0.875rem;
+    color: #9a8878;
+  }
+
+  .step {
+    background: #241f18;
+    border: 1px solid #3a3028;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: #40916c;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  .step-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f5ede0;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #9a8878;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 5px;
+    margin-top: 12px;
+  }
+
+  label:first-of-type { margin-top: 0; }
+
+  input[type="text"], select {
+    width: 100%;
+    background: #1a1612;
+    border: 1px solid #3a3028;
+    border-radius: 8px;
+    color: #e8e0d4;
+    padding: 9px 12px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+
+  input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #40916c;
+  }
+
+  .drop-zone {
+    border: 2px dashed #3a3028;
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .drop-zone:hover, .drop-zone.dragover {
+    border-color: #40916c;
+    background: rgba(64, 145, 108, 0.06);
+  }
+
+  .drop-zone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .drop-icon { font-size: 2rem; }
+
+  .drop-label {
+    font-size: 13px;
+    color: #9a8878;
+  }
+
+  .drop-label strong { color: #74c69d; }
+
+  .preview-img {
+    width: 100%;
+    max-height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  .status {
+    font-size: 12px;
+    margin-top: 6px;
+    min-height: 18px;
+  }
+
+  .status.uploading { color: #f4a261; }
+  .status.done { color: #74c69d; }
+  .status.error { color: #f87171; }
+
+  .url-output {
+    background: #1a1612;
+    border: 1px solid #40916c;
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #74c69d;
+    word-break: break-all;
+    margin-top: 6px;
+    display: none;
+  }
+
+  .copy-btn {
+    background: transparent;
+    border: 1px solid #3a3028;
+    border-radius: 6px;
+    color: #9a8878;
+    font-size: 11px;
+    padding: 3px 10px;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .copy-btn:hover { border-color: #74c69d; color: #74c69d; }
+
+  .summary-box {
+    background: #1a1612;
+    border: 1px solid #40916c;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    display: none;
+  }
+
+  .summary-box h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #74c69d;
+    margin-bottom: 1rem;
+  }
+
+  .summary-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    align-items: start;
+  }
+
+  .summary-key { color: #9a8878; font-weight: 600; }
+  .summary-val { color: #e8e0d4; font-family: monospace; font-size: 12px; word-break: break-all; }
+
+  .action-btn {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #2d6a4f, #40916c);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: opacity 0.2s;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .action-btn:hover { opacity: 0.88; }
+  .action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .hint {
+    font-size: 12px;
+    color: #9a8878;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  .hint a { color: #74c69d; }
+
+  .divider {
+    height: 1px;
+    background: #3a3028;
+    margin: 1.5rem 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>📸 Add Images to a Post</h1>
+    <p>Upload your photos, get the URLs, then paste them into the GitHub Actions workflow to add them to a published post.</p>
+  </header>
+
+  <!-- Step 1: Post slug -->
+  <div class="step">
+    <div class="step-title"><span class="step-num">1</span> Which post?</div>
+    <label>Post filename (slug)</label>
+    <input type="text" id="post-slug" placeholder="e.g. 2026-04-25-hot-honey-ground-beef-bowl" />
+    <p class="hint">Find this in your repo under <code>content/posts/</code> — use the filename without <code>.md</code></p>
+    <label>Alt text (describes the dish)</label>
+    <input type="text" id="alt-text" placeholder="e.g. Hot honey ground beef bowl with avocado and rice" />
+  </div>
+
+  <!-- Step 2: Upload images -->
+  <div class="step">
+    <div class="step-title"><span class="step-num">2</span> Upload your photos</div>
+    <p class="hint" style="margin-bottom:1rem">Images are uploaded to <strong>Imgur</strong> (free, no account needed). You get a public URL to paste into GitHub Actions.</p>
+
+    <label>🖼 Hero / Cover photo <span style="color:#9a8878;font-weight:400;text-transform:none">(appears at top of post)</span></label>
+    <div class="drop-zone" id="dz-hero">
+      <input type="file" id="file-hero" accept="image/*" onchange="handleFile('hero', this)">
+      <div class="drop-icon">🍽</div>
+      <div class="drop-label">Drop image here or <strong>click to browse</strong></div>
+      <div class="hint">Best size: 1200 × 630px. JPG or PNG.</div>
+    </div>
+    <img class="preview-img" id="preview-hero" alt="Hero preview">
+    <div class="status" id="status-hero"></div>
+    <div class="url-output" id="url-hero"></div>
+    <button class="copy-btn" id="copy-hero" onclick="copyUrl('hero')" style="display:none">Copy URL</button>
+
+    <label style="margin-top:1.25rem">🥕 Ingredients photo <span style="color:#9a8878;font-weight:400;text-transform:none">(optional — placed before ingredients list)</span></label>
+    <div class="drop-zone" id="dz-ingred">
+      <input type="file" id="file-ingred" accept="image/*" onchange="handleFile('ingred', this)">
+      <div class="drop-icon">🛒</div>
+      <div class="drop-label">Drop image here or <strong>click to browse</strong></div>
+    </div>
+    <img class="preview-img" id="preview-ingred" alt="Ingredients preview">
+    <div class="status" id="status-ingred"></div>
+    <div class="url-output" id="url-ingred"></div>
+    <button class="copy-btn" id="copy-ingred" onclick="copyUrl('ingred')" style="display:none">Copy URL</button>
+
+    <label style="margin-top:1.25rem">✅ Finished dish photo <span style="color:#9a8878;font-weight:400;text-transform:none">(optional — placed before nutrition table)</span></label>
+    <div class="drop-zone" id="dz-finished">
+      <input type="file" id="file-finished" accept="image/*" onchange="handleFile('finished', this)">
+      <div class="drop-icon">🥗</div>
+      <div class="drop-label">Drop image here or <strong>click to browse</strong></div>
+    </div>
+    <img class="preview-img" id="preview-finished" alt="Finished dish preview">
+    <div class="status" id="status-finished"></div>
+    <div class="url-output" id="url-finished"></div>
+    <button class="copy-btn" id="copy-finished" onclick="copyUrl('finished')" style="display:none">Copy URL</button>
+  </div>
+
+  <!-- Step 3: Go to GitHub Actions -->
+  <div class="step">
+    <div class="step-title"><span class="step-num">3</span> Open GitHub Actions and paste the URLs</div>
+    <p class="hint">Once your images are uploaded above, click the button below to open the workflow. Copy each URL from above and paste it into the matching field.</p>
+    <a class="action-btn" id="gh-link"
+       href="https://github.com/USERNAME/high-protein-meals/actions/workflows/add-images.yml"
+       target="_blank">
+      Open "Add images to blog post" workflow →
+    </a>
+    <p class="hint" style="margin-top:8px">Click <strong>Run workflow</strong> → fill in the slug, alt text, and image URLs → click <strong>Run workflow</strong> again. A PR will be created for your review.</p>
+  </div>
+
+  <!-- Summary panel -->
+  <div class="summary-box" id="summary">
+    <h3>📋 Ready to paste into GitHub Actions</h3>
+    <div class="summary-row"><span class="summary-key">Post slug</span><span class="summary-val" id="s-slug">—</span></div>
+    <div class="summary-row"><span class="summary-key">Alt text</span><span class="summary-val" id="s-alt">—</span></div>
+    <div class="summary-row"><span class="summary-key">Hero URL</span><span class="summary-val" id="s-hero">—</span></div>
+    <div class="summary-row"><span class="summary-key">Ingredients</span><span class="summary-val" id="s-ingred">—</span></div>
+    <div class="summary-row"><span class="summary-key">Finished</span><span class="summary-val" id="s-finished">—</span></div>
+  </div>
+
+</div>
+
+<script>
+const urls = { hero: "", ingred: "", finished: "" };
+
+async function handleFile(slot, input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  // Show preview
+  const preview = document.getElementById(`preview-${slot}`);
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = "block";
+
+  const status = document.getElementById(`status-${slot}`);
+  status.textContent = "Uploading to Imgur...";
+  status.className = "status uploading";
+
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await fetch("https://api.imgur.com/3/image", {
+      method: "POST",
+      headers: { Authorization: "Client-ID 546c25a59c58ad7" },
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      const imgUrl = data.data.link;
+      urls[slot] = imgUrl;
+
+      status.textContent = "Uploaded successfully";
+      status.className = "status done";
+
+      const urlEl = document.getElementById(`url-${slot}`);
+      urlEl.textContent = imgUrl;
+      urlEl.style.display = "block";
+
+      const copyBtn = document.getElementById(`copy-${slot}`);
+      copyBtn.style.display = "inline-block";
+
+      updateSummary();
+    } else {
+      throw new Error(data.data?.error || "Upload failed");
+    }
+  } catch (err) {
+    status.textContent = `Error: ${err.message}. Try a different image or use a free image host like postimages.org`;
+    status.className = "status error";
+  }
+}
+
+function copyUrl(slot) {
+  const url = urls[slot];
+  if (!url) return;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.getElementById(`copy-${slot}`);
+    btn.textContent = "Copied!";
+    setTimeout(() => btn.textContent = "Copy URL", 2000);
+  });
+}
+
+function updateSummary() {
+  const slug = document.getElementById("post-slug").value.trim();
+  const alt  = document.getElementById("alt-text").value.trim();
+
+  document.getElementById("s-slug").textContent    = slug    || "—";
+  document.getElementById("s-alt").textContent     = alt     || "—";
+  document.getElementById("s-hero").textContent    = urls.hero     || "—";
+  document.getElementById("s-ingred").textContent  = urls.ingred   || "—";
+  document.getElementById("s-finished").textContent= urls.finished || "—";
+
+  if (slug && (urls.hero || urls.ingred || urls.finished)) {
+    document.getElementById("summary").style.display = "block";
+  }
+}
+
+document.getElementById("post-slug").addEventListener("input", updateSummary);
+document.getElementById("alt-text").addEventListener("input",  updateSummary);
+
+// Drag and drop visual feedback
+document.querySelectorAll(".drop-zone").forEach(zone => {
+  zone.addEventListener("dragover",  e => { e.preventDefault(); zone.classList.add("dragover"); });
+  zone.addEventListener("dragleave", () => zone.classList.remove("dragover"));
+  zone.addEventListener("drop", e => {
+    e.preventDefault();
+    zone.classList.remove("dragover");
+    const slot = zone.id.replace("dz-", "");
+    const fileInput = document.getElementById(`file-${slot}`);
+    fileInput.files = e.dataTransfer.files;
+    handleFile(slot, fileInput);
+  });
+});
+</script>
+
+</body>
+</html>
