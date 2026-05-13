@@ -1,0 +1,102 @@
+name: Add images to blog post
+
+on:
+  workflow_dispatch:
+    inputs:
+      post_slug:
+        description: "Post filename without .md (e.g. 2026-04-25-hot-honey-ground-beef-bowl)"
+        required: true
+      hero_image_url:
+        description: "URL of the hero/cover image (must be publicly accessible)"
+        required: false
+        default: ""
+      ingredient_image_url:
+        description: "URL of ingredients photo (optional)"
+        required: false
+        default: ""
+      finished_image_url:
+        description: "URL of finished dish photo (optional)"
+        required: false
+        default: ""
+      image_alt:
+        description: "Alt text describing the dish (e.g. 'Hot honey ground beef bowl with avocado and rice')"
+        required: true
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  add-images:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Download and save images
+        env:
+          HERO_URL: ${{ github.event.inputs.hero_image_url }}
+          INGREDIENT_URL: ${{ github.event.inputs.ingredient_image_url }}
+          FINISHED_URL: ${{ github.event.inputs.finished_image_url }}
+          POST_SLUG: ${{ github.event.inputs.post_slug }}
+        run: |
+          mkdir -p static/images/posts/$POST_SLUG
+
+          if [ -n "$HERO_URL" ]; then
+            echo "Downloading hero image..."
+            curl -sL "$HERO_URL" -o "static/images/posts/$POST_SLUG/hero.jpg"
+          fi
+
+          if [ -n "$INGREDIENT_URL" ]; then
+            echo "Downloading ingredients image..."
+            curl -sL "$INGREDIENT_URL" -o "static/images/posts/$POST_SLUG/ingredients.jpg"
+          fi
+
+          if [ -n "$FINISHED_URL" ]; then
+            echo "Downloading finished dish image..."
+            curl -sL "$FINISHED_URL" -o "static/images/posts/$POST_SLUG/finished.jpg"
+          fi
+
+          ls -la static/images/posts/$POST_SLUG/
+
+      - name: Inject images into post markdown
+        env:
+          POST_SLUG: ${{ github.event.inputs.post_slug }}
+          ALT_TEXT: ${{ github.event.inputs.image_alt }}
+          HERO_URL: ${{ github.event.inputs.hero_image_url }}
+          INGREDIENT_URL: ${{ github.event.inputs.ingredient_image_url }}
+          FINISHED_URL: ${{ github.event.inputs.finished_image_url }}
+        run: node scripts/inject-images.js
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add images to post: ${{ github.event.inputs.post_slug }}"
+          branch: "images/post-${{ github.event.inputs.post_slug }}"
+          title: "Add images: ${{ github.event.inputs.post_slug }}"
+          body: |
+            Images added to post: `${{ github.event.inputs.post_slug }}`
+
+            **Images added:**
+            - Hero/cover: ${{ github.event.inputs.hero_image_url || 'none' }}
+            - Ingredients: ${{ github.event.inputs.ingredient_image_url || 'none' }}
+            - Finished dish: ${{ github.event.inputs.finished_image_url || 'none' }}
+            - Alt text: ${{ github.event.inputs.image_alt }}
+
+            **Review before merging:**
+            - [ ] Hero image looks correct at the top of the post
+            - [ ] Images are sharp and well-cropped
+            - [ ] Alt text is descriptive
+            - [ ] Post still reads well with images in place
+
+            Merging will trigger a deploy and the images will go live.
+          labels: "images, needs-review"
+          draft: false
